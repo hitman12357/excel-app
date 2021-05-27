@@ -1,4 +1,7 @@
-export const resize = ($root, $resizer) => {
+import {$} from '@core/dom'
+
+export const resizeHandler = ($root, event) => {
+  const $resizer = $(event.target)
   const $parent = $resizer.closest('[data-type="resizable"]')
   const coords = $parent.getCoords()
   const type = $resizer.data.resize
@@ -39,4 +42,7 @@ export const resize = ($root, $resizer) => {
       right: 0
     })
   }
+
+  event.preventDefault()
+  event.stopPropagation()
 }

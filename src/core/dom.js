@@ -5,6 +5,27 @@ class Dom {
       selector
   }
 
+  get id() {
+    return this.data.id
+  }
+
+  getId() {
+    const parsed = this.id.split(':')
+    return {
+      row: +parsed[0],
+      col: +parsed[1]
+    }
+  }
+
+  get data() {
+    return this.$el.dataset
+  }
+
+  clear() {
+    this.html('')
+    return this
+  }
+
   html(html) {
     if (typeof html === 'string') {
       this.$el.innerHTML = html
@@ -13,9 +34,15 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
 
-  clear() {
-    this.html('')
-    return this
+  text(text) {
+    if (typeof text === 'string') {
+      this.$el.textContent = text
+      return this
+    }
+    if (this.$el.tagName.toLowerCase() === 'input') {
+      return this.$el.value.trim()
+    }
+    return this.$el.textContent.trim()
   }
 
   on(eventType, callback) {
@@ -42,10 +69,6 @@ class Dom {
     return $(this.$el.closest(selector))
   }
 
-  get data() {
-    return this.$el.dataset
-  }
-
   getCoords() {
     return this.$el.getBoundingClientRect()
   }
@@ -59,6 +82,28 @@ class Dom {
 
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
+  }
+
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
+
+  addClassName(className) {
+    this.$el.classList.add(className)
+
+    return this
+  }
+
+  deleteClassName(className) {
+    this.$el.classList.remove(className)
+
+    return this
+  }
+
+  focus() {
+    this.$el.focus()
+
+    return this
   }
 }
 
